@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '../../components/Card'
 import './styles.css'
 
@@ -23,12 +23,18 @@ export function Home() {
 
   return (
     <div className='container'>
-      <h1>Presence List</h1>
+      <header>
+        <h1>Presence List</h1>
+        <div>
+          <strong>Breno Machado</strong>
+          <img src="https://github.com/brenomachadodomonte.png" alt="Profile Photo" />
+        </div>
+      </header>
       <input type="text" placeholder="Type the name" onChange={e => setStudentName(e.target.value)} />
       <button type="button" onClick={handleAddStudent}>Add</button>
 
       {
-        students.map(student => <Card name={student.name} time={student.time} />)
+        students.map(student => <Card key={student.time} name={student.name} time={student.time} />)
       }
     </div>
   )
