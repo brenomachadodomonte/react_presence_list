@@ -7,6 +7,7 @@ export function Home() {
 
   const [studentName, setStudentName] = useState('');
   const [students, setStudents] = useState([]);
+  const [user, setUser] = useState({ name: '', avatar: '' });
 
   function handleAddStudent(){
     const newStudent =  {
@@ -21,13 +22,37 @@ export function Home() {
     setStudents(prevState => [...prevState, newStudent])
   }
 
+  useEffect(() => {
+    // body of useEffect
+    // fetch('https://api.github.com/users/brenomachadodomonte')
+    // .then(response => response.json())
+    // .then(data => {
+    //   setUser({
+    //     avatar: data.avatar_url,
+    //     name: data.name
+    //   })
+    // })
+
+    async function asyncData() {
+      const response = await fetch('https://api.github.com/users/brenomachadodomonte');
+      const data = await response.json();
+
+      setUser({
+        avatar: data.avatar_url,
+        name: data.name
+      })      
+    }
+
+    asyncData();
+  }, [students]);
+
   return (
     <div className='container'>
       <header>
         <h1>Presence List</h1>
         <div>
-          <strong>Breno Machado</strong>
-          <img src="https://github.com/brenomachadodomonte.png" alt="Profile Photo" />
+          <strong>{user.name}</strong>
+          <img src={user.avatar} alt="Profile Photo" />
         </div>
       </header>
       <input type="text" placeholder="Type the name" onChange={e => setStudentName(e.target.value)} />
